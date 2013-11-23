@@ -8,12 +8,12 @@ require('../../../../wp-blog-header.php');
 
  ?>
 
-Select Category<select name="cat" onchange="showsize(this.value)">
+Select Material<select name="material" >
 <option value="">select</option>
-<?php $result = $wpdb->get_results( "SELECT * FROM child_services where parent_service=$q" );
+<?php $result = $wpdb->get_results( "SELECT * FROM services where id =$q" );
 	foreach($result as $myrow)
 	{
-	 $service = $myrow->name;
+	 $service = $myrow->material;
 	 $service_id = $myrow->id;
 ?>
 <br />	Select Service<option value="<?php echo $service_id;?> "><?php echo $service;?></option>
@@ -22,5 +22,7 @@ Select Category<select name="cat" onchange="showsize(this.value)">
 	}
  ?>
 
+<div>
 
 </select>
+
