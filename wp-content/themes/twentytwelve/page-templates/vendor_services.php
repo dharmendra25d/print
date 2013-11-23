@@ -132,11 +132,11 @@ get_header();
 		// Inserting all form values to database
 		if(isset($_POST['service']))
 		{
-			 echo $main=$_POST['main_service'];
-			 echo $child=$_POST['cat'];
-			 echo $size=$_POST['size'];
-			 echo $material=$_POST['material'];
-			 echo $price=$_POST['price'];
+			  $main=$_POST['main_service'];
+			  $child=$_POST['cat'];
+			  $size=$_POST['size'];
+			  $material=$_POST['material'];
+			  $price=$_POST['price'];
 
 
 		$wpdb->insert(   			//Inserting values to vendor service table
