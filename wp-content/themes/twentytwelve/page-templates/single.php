@@ -12,7 +12,15 @@
  * @since Twenty Twelve 1.0
  */
 get_header(); 
+?>
+<nav id="site-navigation" class="main-navigation" role="navigation">
+			<h3 class="menu-toggle"><?php _e( 'Menu', 'twentytwelve' ); ?></h3>
+			<a class="assistive-text" href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentytwelve' ); ?>"><?php _e( 'Skip to content', 'twentytwelve' ); ?></a>
+			<div class="menu-user-container" ><?php  wp_nav_menu( array('menu' => 'user'  )) ; ?>
+			 <li><a href="<?php echo get_logout_url(); ?>" >logout</a></li></div>
 
+		</nav><!-- #site-navigation -->
+<?php
 //Get Album ID
 if(isset($_GET['v']))
 {
@@ -24,7 +32,7 @@ $result2 = mysql_query("SELECT * FROM photos where album_id=$album_id");
 ?> <div id="imagelist">
     <p><img src="<?php echo get_template_directory_uri()."/".$row2['location'];?>"></p>
 
-	<a href="<?php echo get_template_directory_uri();?>/plugins/phpimageeditor/index.php?imagesrc=../../<?php echo $row2['location']?>" >Edit</a>
+	<a href="<?php echo get_template_directory_uri();?>/plugins/phpimageeditor/index.php?imagesrc=../../<?php echo $row2['location']; ?>&lightbox[iframe]=true&amp;lightbox[width]=1270&amp;lightbox[height]=860" class="lightbox">Edit</a>
 	<?php echo '</div>';
    }
 }

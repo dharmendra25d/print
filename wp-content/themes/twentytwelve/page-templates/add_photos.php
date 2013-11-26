@@ -1,12 +1,4 @@
 <?php
-if(!isset($_SESSION['username']))
-{
-header('Location:member-login');
-}
-else
-{
-echo $_SESSION['username'];
-}
 /**
  * Template Name: Add Photos
  *
@@ -59,7 +51,13 @@ if(isset($_FILES['files'])){
 }
 	get_header(); 
 ?>
+<nav id="site-navigation" class="main-navigation" role="navigation">
+			<h3 class="menu-toggle"><?php _e( 'Menu', 'twentytwelve' ); ?></h3>
+			<a class="assistive-text" href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentytwelve' ); ?>"><?php _e( 'Skip to content', 'twentytwelve' ); ?></a>
+			<div class="menu-user-container" ><?php  wp_nav_menu( array('menu' => 'user'  )) ; ?>
+			 <li><a href="<?php echo get_logout_url(); ?>" >logout</a></li></div>
 
+		</nav>
 <form action="" method="POST" enctype="multipart/form-data">
     Select Album: <br />
 <select name="album_id" required>
@@ -83,7 +81,7 @@ Select Image: <br />
 </form>
 <?php
 //Add photo to Album
-$result = mysql_query("SELECT * FROM album");
+$result = mysql_query("SELECT * FROM album where user_id=$_SESSION[user]");
 while($row1 = mysql_fetch_array($result))
  {
  $result1 = mysql_query("SELECT * FROM photos where album_id=$row1[id] LIMIT 1");

@@ -12,7 +12,21 @@
  * @since Twenty Twelve 1.0
  */
 get_header(); 
+?>
+<script type="text/javascript">
+      $('#btnsave').live("click" , function()
+	  {
+	  $('.lightbox').hide();
+	  }); 
+  </script>
+<nav id="site-navigation" class="main-navigation" role="navigation">
+			<h3 class="menu-toggle"><?php _e( 'Menu', 'twentytwelve' ); ?></h3>
+			<a class="assistive-text" href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentytwelve' ); ?>"><?php _e( 'Skip to content', 'twentytwelve' ); ?></a>
+			<div class="menu-user-container" ><?php  wp_nav_menu( array('menu' => 'user'  )) ; ?>
+			 <li><a href="<?php echo get_logout_url(); ?>" >logout</a></li></div>
 
+		</nav><!-- #site-navigation -->
+<?php
 //Adding Album info to Database
 if (isset($_POST['Submit'])) {
  $name=$_POST['album'];
@@ -20,9 +34,9 @@ if (isset($_POST['Submit'])) {
  echo"Successfully Added";
  echo"<br />";
  ?>
- <a href="?page_id=10">Add Photos</a>';
 <?php
  }
+ 
 ?>
 <!--Creating New Album-->
  <form action="" method="post" enctype="multipart/form-data" name="addroom">
