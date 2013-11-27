@@ -4,7 +4,9 @@ if($_POST['id'])
 {
 $id=$_POST['id'];
 
-$sql = "delete from child_services where id='$id'";
+$sql = "delete from main_services where id='$id'";
+
+
 mysql_query( $sql);
 }
 ?>

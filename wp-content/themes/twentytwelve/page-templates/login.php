@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Add Album
+ * Template Name: Login
  *
  * Description: A page template that provides a key component of WordPress as a CMS
  * by meeting the need for a carefully crafted introductory page. The front page template
@@ -11,9 +11,13 @@
  * @subpackage Twenty_Twelve
  * @since Twenty Twelve 1.0
  */
-get_header(); 
-?>
+//Insert photos to Database
+session_start();
+	get_header(); 
 
+ if(isset($_SESSION['username']))
+{
+?>
 <nav id="site-navigation" class="main-navigation" role="navigation">
 			<h3 class="menu-toggle"><?php _e( 'Menu', 'twentytwelve' ); ?></h3>
 			<a class="assistive-text" href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentytwelve' ); ?>"><?php _e( 'Skip to content', 'twentytwelve' ); ?></a>
@@ -22,31 +26,13 @@ get_header();
 
 		</nav><!-- #site-navigation -->
 <?php
-//Adding Album info to Database
-if (isset($_POST['Submit'])) {
- $name=$_POST['album'];
- $save=mysql_query("INSERT INTO album (name, user_id) VALUES ('$name','$_SESSION[user]')");
- if($save)
- {
- echo"Successfully Added";
- }
- else
- {
- echo"Name already exists";
- }
- echo"<br />";
- ?>
-<?php
- }
- 
+}
+
 ?>
-<!--Creating New Album-->
- <form action="" method="post" enctype="multipart/form-data" name="addroom">
- New Album: <br />
-   <input type="text" name="album" class="ed">
-   <br />
-   <input type="submit" name="Submit" value="Add" id="button1" />
- </form>
- <!-- End Album -->
-</body>
-</html>
+
+<?php while ( have_posts() ) : the_post(); ?>
+				<?php get_template_part( 'content', 'page' ); ?>
+			<?php endwhile; // end of the loop. ?>
+<?php
+get_footer(); 
+?>

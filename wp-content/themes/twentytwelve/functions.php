@@ -512,8 +512,12 @@ add_action( 'customize_preview_init', 'twentytwelve_customize_preview_js' );
 function myEndSession() {
     session_destroy ();
 }
-add_action( 'admin_menu', 'register_my_custom_menu_page' );
 
+add_action( 'admin_menu', 'register_my_custom_menu_page' );
 function register_my_custom_menu_page(){
-    add_menu_page( 'custom menu title', 'custom menu', 'manage_options', 'services.php', '', plugins_url( 'myplugin/images/icon.png' ), 6 );
+	add_menu_page('custom menu title', 'Manage Category', 'manage_options', 'new_cat.php', '', plugins_url( 'myplugin/images/icon.png' )  );
+    add_menu_page( 'custom menu title', 'Manage Sub-category & size', 'manage_options', 'services.php', '', plugins_url( 'myplugin/images/icon.png' )  );
+	add_menu_page( 'custom menu title', 'Manage Material', 'manage_options', 'material.php', '', plugins_url( 'myplugin/images/icon.png' )  );
+
 }
+

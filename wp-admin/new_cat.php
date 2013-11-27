@@ -1,89 +1,29 @@
 <?php
 ob_start();
 require_once( dirname( __FILE__ ) . '/admin.php' );
-$title = __('Add New Category');
-
+$title = __('Manage Category');
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
-<h2>
+<h1>
 <?php
 echo esc_html( $title );
 ?>
-</h2>
+</h1>
+<br />
 <!-- Add new category -->
-<form name="category" method="post" action="">
- Category Name<input type="text" name="category" value="" required />
-               <input type="submit" name="cat" value="Add" />
-</form>
+<div id="post-body-content">
+<h2>Add New Category</h2>
+	<div class="postbox">
+		<form name="category" method="post" action="">
+			<div class="custom">Category Name<input type="text" name="category" value="" required /></div>
+				<div class="custom"><input type="submit" name="cat" value="Add" /></div>
+		</form>
+	</div>
+</div>
 <!-- Add new category End here -->
 
-<!-- Add new sub category -->
-<form name="sub-category" method="post" action="">
-<div>
- <h2>
- Add New Sub Category
- </h2>
-	<div class="postbox">
-		Select category<select name="main_service"  required>
-						<option value="">select</option>
-<?php 					$result = $wpdb->get_results( "SELECT * FROM main_services" );
-						foreach($result as $myrow)
-						{
-						$service = $myrow->name;
-						$service_id = $myrow->id;
-?>
-						<option value="<?php echo $service_id;?> "><?php echo $service;?></option>
-<?php
-						}
- ?>
-						</select>
-		Sub Category Name<input type="text" name="subcategory" value="" required />
-							<input type="submit" name="subcat" value="Add" />
-	</div>						
-</form>
-<!-- Add new sub category End here -->
-<!-- View Subcategory -->
-<form name="sub-category" method="post" action="">
-<div>
- <h2>
- View Sub Category
- </h2>
-	<div class="postbox">
-		Select category<select name="main"  required>
-						<option value="">select</option>
-<?php 					$result = $wpdb->get_results( "SELECT * FROM main_services" );
-						foreach($result as $myrow)
-						{
-						$service = $myrow->name;
-						$service_id = $myrow->id;
-?>
-						<option value="<?php echo $service_id;?> "><?php echo $service;?></option>
-<?php
-						}
- ?>
-						</select>
 
-							<input type="submit" name="view" value="submit" />
-
-</form>
-<!-- View Subcategory -->
 <?php
-if(isset($_POST['view']))
-{
- $cat=$_POST['main'];   $count=0;
-						echo"<br /><table><tr><th>S. No.</th><th>Name</th><th>Delete</th>";
-						$result = $wpdb->get_results( "SELECT * FROM child_services where parent_service=$cat" );
-						foreach($result as $myrow)
-						{
-						$count++;
-						$service = $myrow->name;
-						$service_id = $myrow->id;
-?>
-						<tr class="record"><td><?php echo $count; ?>.</td><td><?php echo $service; ?></td><td><a href="#" id="<?php echo $service_id; ?>" class="delbutton">Delete</a></td></tr>
-<?php 					} 
-						echo"</table>";
-}
-
 //inserting category values to database
 if(isset($_POST['category']))
 {
@@ -105,28 +45,7 @@ exit;
 
 }
 
-//inserting category values to database
-if(isset($_POST['subcat']))
-{
- $main=$_POST['main_service'];
- $subcat=$_POST['subcategory'];
- $wpdb->insert( 
-	'child_services', 
-	array( 
-		'id' =>'', 
-		'name' => $subcat,
-		'parent_service' => $main
-	), 
-	array( 
-		'%d',
-		'%s',
-		'%d'
 
-	) 
-);
-header('Location:new_cat.php');
-exit;
-}
 
 ?>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js"></script>
@@ -152,3 +71,62 @@ return false;
 });
 });
 </script>
+<br />
+
+<div id="post-body-content">
+		<h2>Category List </h2>
+		<div class="postbox">
+		 <table style="text-align:center;" width="80%"><tr><th width="5%">S. No.</th><th width="10%">Category</th width="10%"><th width="10%">Option</th></tr>
+<?php 					$count=0;
+						
+						$result = $wpdb->get_results( "SELECT * FROM main_services" );
+						foreach($result as $myrow)
+						{
+						$count++;
+						$service = $myrow->name;
+						$service_id = $myrow->id;
+?>
+						<tr class="record"><td><?php echo $count; ?>.</td><td><?php echo $service;?></td><td><a href="?id=<?php echo $service_id; ?>">Edit</a>&nbsp;/&nbsp;<a href="#" id="<?php echo $service_id; ?>" class="delbutton">Delete</a></td></tr>
+<?php
+						}
+ ?>			</table>			
+		</div>
+</div>
+<?php 
+if(isset($_GET['id']))
+{
+$cat_id=$_GET['id'];
+$result = $wpdb->get_row( "SELECT * FROM main_services where id=$cat_id" );
+						
+						$cat = $result->name;
+?>
+<div id="post">
+<h2>Edit Category</h2>
+	<div class="postbox">
+		<form name="edit-category" method="post" action="new_cat.php">
+			<div class="custom">Category Name<input type="text" name="edit-category" value="<?php echo $cat; ?>" required /></div>
+												<input type="hidden" name="cat_id" value="<?php echo $cat_id;  ?>" >
+				<div class="custom"><input type="submit" name="cat" value="save" /></div>
+		</form>
+	</div>
+</div>
+<!-- Add new category End here -->
+
+
+<?php
+}
+//Update category values to database
+if(isset($_POST['cat']))
+{
+  $cat=$_POST['edit-category'];
+  $cat_id=$_POST['cat_id'];
+ 
+$result= $wpdb->query("UPDATE main_services SET name = '$cat' WHERE ID = $cat_id");
+if($result)
+{
+header('Location:new_cat.php');
+exit;
+}
+
+
+}

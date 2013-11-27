@@ -331,9 +331,17 @@ function eMember_compact_login_widget($show_profile_link=''){
 }
 function get_logout_url(){
     $url = get_bloginfo('url');
-    if(strpos($url,'?')) $logout = $url."&event=logout";
-    else $logout = $url."/?event=logout";
-	session_destroy();
+    if(strpos($url,'?'))
+	{
+	
+	$logout = $url."&event=logout";
+
+	}
+	else
+	{
+	unset($_SESSION['username']);
+	$logout = $url."/?event=logout";
+	}
     return $logout;
 }
 function wp_emember_is_member_logged_in($level_id='')
